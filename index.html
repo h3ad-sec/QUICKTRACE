@@ -728,6 +728,24 @@
       margin: 0;
     }
 
+    .placeholder {
+      color: #f59e0b;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 3px;
+      padding: 0 3px;
+      font-family: 'Share Tech Mono', monospace;
+      font-style: normal;
+    }
+
+    .ph-hint {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 6px;
+      padding: 0 2px;
+    }
+
     .code-loading {
       font-family: 'Share Tech Mono', monospace;
       font-size: 10px;
@@ -1297,6 +1315,9 @@
         + '<button class="btn-hide" onclick="toggleView(' + idx + ')">&#x25B2; HIDE</button>'
         + '<button class="btn-copy" id="copy-' + idx + '" onclick="copyQuery(' + idx + ')">COPY QUERY</button>'
         + '</div>'
+        + '<div class="ph-hint" id="ph-hint-' + idx + '" style="display:none">'
+        + '&#x26A0; Replace highlighted <span style="color:#f59e0b">&#x3C;placeholders&#x3E;</span> before running'
+        + '</div>'
         + '</div>'
         + '</div>';
     }
@@ -1400,7 +1421,23 @@
 
     function renderQueryBody(idx, body) {
       var pre = document.getElementById('code-' + idx);
-      if (pre) pre.textContent = body;
+      if (!pre) return;
+      // 1. HTML-escape the full body first
+      var escaped = body
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      // 2. Replace escaped placeholder pattern &lt;word&gt; with highlighted span
+      var highlighted = escaped.replace(
+        /&lt;([a-zA-Z_][a-zA-Z0-9_]*)&gt;/g,
+        '<span class="placeholder">&lt;$1&gt;</span>'
+      );
+      pre.innerHTML = highlighted;
+      // show/hide placeholder hint
+      var hint = document.getElementById('ph-hint-' + idx);
+      if (hint) {
+        hint.style.display = /&lt;[a-zA-Z_]\w*&gt;/.test(highlighted) ? 'block' : 'none';
+      }
     }
 
     // ── Copy query ────────────────────────────────────────────────────────────────
