@@ -76,6 +76,7 @@
       line-height: 1.6;
       min-height: 100vh;
       transition: background 0.25s, color 0.25s;
+      overflow-x: hidden;
     }
 
     body::before {
@@ -750,6 +751,7 @@
       white-space: pre;
       margin: 0;
       min-width: 0;
+      word-break: break-all;
     }
 
     .placeholder {
@@ -922,6 +924,7 @@
         flex-wrap: wrap;
         padding: 8px 14px;
         gap: 6px;
+        overflow-x: hidden;
       }
 
       .filter-spacer {
@@ -935,6 +938,16 @@
 
       .main-content {
         padding: 14px 14px 32px;
+      }
+    }
+
+    /* ── Responsive: narrow mobile (≤480px) — category pills stack ──── */
+    @media (max-width: 480px) {
+      .filter-pill.pill-network,
+      .filter-pill.pill-endpoint,
+      .filter-pill.pill-cloud {
+        font-size: 10px;
+        padding: 0 10px;
       }
     }
 
@@ -975,6 +988,7 @@
         padding: 8px 12px;
         gap: 6px;
         top: var(--nav-h);
+        overflow-x: hidden;
       }
 
       .filter-pill {
