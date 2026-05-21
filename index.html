@@ -1352,8 +1352,9 @@
         .replace(/"/g, '&quot;');
     }
 
-    function platformBadgeHtml(p) {
-      return '<span class="platform-badge pb-' + p.toLowerCase() + '">' + p.toUpperCase() + '</span>';
+    function platformBadgeHtml(p, verifiedArr) {
+      var v = Array.isArray(verifiedArr) && verifiedArr.indexOf(p.toLowerCase()) !== -1;
+      return '<span class="platform-badge pb-' + p.toLowerCase() + '">' + p.toUpperCase() + (v ? ' ✓' : '') + '</span>';
     }
 
     // ── Build card ────────────────────────────────────────────────────────────────
@@ -1364,7 +1365,8 @@
       var desc = escapeHtml(entry.description || '');
       var platformsArr = Array.isArray(entry.platforms) ? entry.platforms
         : (entry.platform ? [entry.platform] : []);
-      var platformBadges = platformsArr.map(platformBadgeHtml).join('');
+      var verified = entry.verified || [];
+      var platformBadges = platformsArr.map(function(p) { return platformBadgeHtml(p, verified); }).join('');
 
       return '<div class="query-card" id="card-' + idx + '">'
         + '<div class="card-top">'
@@ -1577,11 +1579,14 @@
     function renderPlatformTabs(idx, platforms, active) {
       var tabsEl = document.getElementById('ptabs-' + idx);
       if (!tabsEl || !platforms || platforms.length < 2) return;
+      var entry = allQueries.find(function(q) { return q._idx === idx; });
+      var verified = (entry && entry.verified) ? entry.verified : [];
       var html = '<div class="platform-tabs">';
       for (var i = 0; i < platforms.length; i++) {
         var p = platforms[i];
         var isActive = p === active;
-        html += '<button class="pt-btn pt-' + p + (isActive ? ' active' : '') + '" onclick="switchPlatform(' + idx + ',\'' + p + '\')">' + p.toUpperCase() + '</button>';
+        var isVerified = verified.indexOf(p) !== -1;
+        html += '<button class="pt-btn pt-' + p + (isActive ? ' active' : '') + '" onclick="switchPlatform(' + idx + ',\'' + p + '\')">' + p.toUpperCase() + (isVerified ? ' ✓' : '') + '</button>';
       }
       html += '</div>';
       tabsEl.innerHTML = html;
