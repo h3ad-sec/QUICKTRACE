@@ -418,6 +418,31 @@
       background: rgba(168, 85, 247, 0.08);
     }
 
+    .filter-pill.pill-xql.active {
+      color: #f59e0b;
+      border-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    .filter-pill.pill-kql.active {
+      color: #4d94ff;
+      border-color: #4d94ff;
+      background: rgba(77, 148, 255, 0.08);
+    }
+
+    .filter-pill.pill-spl.active {
+      color: #a855f7;
+      border-color: #a855f7;
+      background: rgba(168, 85, 247, 0.08);
+    }
+
+    .filter-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
     .filter-spacer {
       flex: 1;
     }
@@ -1083,6 +1108,10 @@
       <button class="filter-pill pill-network" data-filter="network" onclick="setFilter('network')">NETWORK</button>
       <button class="filter-pill pill-endpoint" data-filter="endpoint" onclick="setFilter('endpoint')">ENDPOINT</button>
       <button class="filter-pill pill-cloud" data-filter="cloud" onclick="setFilter('cloud')">CLOUD</button>
+      <div class="filter-divider"></div>
+      <button class="filter-pill pill-xql" data-platform="xql" onclick="setPlatform('xql')">XQL</button>
+      <button class="filter-pill pill-kql" data-platform="kql" onclick="setPlatform('kql')">KQL</button>
+      <button class="filter-pill pill-spl" data-platform="spl" onclick="setPlatform('spl')">SPL</button>
       <div class="filter-spacer"></div>
       <input class="filter-search" id="searchInput" type="text" placeholder="search queries..." oninput="onSearch()"
         autocomplete="off" spellcheck="false" />
@@ -1143,6 +1172,7 @@
     // ── State ─────────────────────────────────────────────────────────────────────
     var allQueries = [];
     var activeFilter = 'all';
+    var activePlatform = 'all';
     var searchTerm = '';
     var MANIFEST_URL = 'https://raw.githubusercontent.com/h3ad-sec/QUERYVAULT/main/quicktrace-manifest.json?v=' + Date.now();
     var RAW_BASE = 'https://raw.githubusercontent.com/h3ad-sec/QUERYVAULT/main/';
@@ -1272,6 +1302,11 @@
       return allQueries.filter(function (q) {
         var matchCat = activeFilter === 'all' || (q.category || '').toLowerCase() === activeFilter;
         if (!matchCat) return false;
+        if (activePlatform !== 'all') {
+          var platforms = Array.isArray(q.platforms) ? q.platforms : (q.platform ? [q.platform] : []);
+          var hasPlatform = platforms.some(function(p) { return p.toLowerCase() === activePlatform; });
+          if (!hasPlatform) return false;
+        }
         if (!searchTerm) return true;
         var haystack = [
           q.title || '', q.description || '',
@@ -1284,8 +1319,16 @@
 
     function setFilter(f) {
       activeFilter = f;
-      document.querySelectorAll('.filter-pill').forEach(function (pill) {
+      document.querySelectorAll('.filter-pill[data-filter]').forEach(function (pill) {
         pill.classList.toggle('active', pill.dataset.filter === f);
+      });
+      renderGrid(getFiltered());
+    }
+
+    function setPlatform(p) {
+      activePlatform = activePlatform === p ? 'all' : p;
+      document.querySelectorAll('.filter-pill[data-platform]').forEach(function (pill) {
+        pill.classList.toggle('active', pill.dataset.platform === activePlatform);
       });
       renderGrid(getFiltered());
     }
