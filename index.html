@@ -426,6 +426,12 @@
       background: rgba(168, 85, 247, 0.08);
     }
 
+    .filter-pill.pill-siem.active {
+      color: #10b981;
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.08);
+    }
+
     .filter-pill.pill-xql.active {
       color: #f59e0b;
       border-color: #f59e0b;
@@ -585,6 +591,12 @@
       color: #a855f7;
       background: rgba(168, 85, 247, 0.12);
       border: 1px solid rgba(168, 85, 247, 0.25);
+    }
+
+    .badge-siem {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
     }
 
     .platform-badge {
@@ -892,7 +904,8 @@
     @media (max-width: 480px) {
       .filter-pill.pill-network,
       .filter-pill.pill-endpoint,
-      .filter-pill.pill-cloud {
+      .filter-pill.pill-cloud,
+      .filter-pill.pill-siem {
         font-size: 10px;
         padding: 0 10px;
       }
@@ -1135,6 +1148,7 @@
       <button class="filter-pill pill-network" data-filter="network" onclick="setFilter('network')">NETWORK</button>
       <button class="filter-pill pill-endpoint" data-filter="endpoint" onclick="setFilter('endpoint')">ENDPOINT</button>
       <button class="filter-pill pill-cloud" data-filter="cloud" onclick="setFilter('cloud')">CLOUD</button>
+      <button class="filter-pill pill-siem" data-filter="siem" onclick="setFilter('siem')">SIEM</button>
       <div class="filter-divider"></div>
       <button class="filter-pill pill-xql" data-platform="xql" onclick="setPlatform('xql')">XQL</button>
       <button class="filter-pill pill-kql" data-platform="kql" onclick="setPlatform('kql')">KQL</button>
@@ -1247,6 +1261,7 @@
       if (c === 'network') return 'badge-network';
       if (c === 'endpoint') return 'badge-endpoint';
       if (c === 'cloud') return 'badge-cloud';
+      if (c === 'siem') return 'badge-siem';
       return 'badge-auth';
     }
 
