@@ -441,6 +441,7 @@
       z-index: 1;
       padding-top: var(--nav-h);
       height: 100dvh;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       font-family: var(--font-ui);
@@ -540,40 +541,46 @@
       color: var(--border-strong);
     }
 
-    .qt-tools {
+    .qt-view-tabs {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 2px;
+      padding: 3px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
       flex-shrink: 0;
     }
 
-    .qt-tool {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
+    .qt-view-tab {
       font-family: var(--font-cond);
-      font-size: 11px;
       font-weight: 600;
-      letter-spacing: .06em;
+      font-size: 10px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
       color: var(--muted);
       background: transparent;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 10px;
+      line-height: 1;
+      text-align: center;
       cursor: pointer;
-      transition: border-color .16s var(--ease), color .16s var(--ease), background .16s var(--ease);
+      transition: all .15s;
+      white-space: nowrap;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .qt-tool:hover {
-      border-color: var(--accent);
-      color: var(--text);
+    @media (hover: hover) {
+      .qt-view-tab:hover {
+        color: var(--text);
+      }
     }
 
-    .qt-tool.active {
-      background: linear-gradient(180deg, rgba(0, 212, 255, .18), rgba(0, 212, 255, .06));
-      border-color: var(--accent);
-      color: var(--text);
+    .qt-view-tab.active {
+      background: var(--panel);
+      color: var(--accent);
     }
 
     /* ── App shell utilities ──────────────────────────────────────────── */
@@ -592,11 +599,295 @@
       min-height: 0;
     }
 
+    /* ── Overview ─────────────────────────────────────────────────────── */
+    .qt-overview-wrap {
+      height: 100%;
+      overflow-y: auto;
+      padding: 32px 20px 60px;
+    }
+
+    .qt-overview-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      animation: qtFadeIn .3s var(--ease);
+    }
+
+    .qt-hero-banner {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 2px;
+      font-weight: 700;
+      font-size: clamp(26px, 5vw, 40px);
+      letter-spacing: 4px;
+    }
+
+    .qt-hero-tagline {
+      text-align: center;
+      font-family: var(--font-cond);
+      font-size: var(--fs-xs);
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: -6px;
+    }
+
+    .qt-hero-by {
+      text-align: center;
+      font-family: var(--font-cond);
+      font-weight: 600;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .qt-hero-intro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .qt-hero-title {
+      font-weight: 700;
+      font-size: clamp(20px, 3.6vw, 30px);
+      line-height: 1.3;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .qt-hero-title .a1 { color: var(--accent); }
+    .qt-hero-title .a2 { color: var(--accent2); }
+    .qt-hero-title .a3 { color: var(--status-partial); }
+
+    .qt-hero-sub {
+      font-family: var(--font-ui);
+      font-size: 13.5px;
+      color: var(--muted);
+      max-width: 620px;
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .qt-hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .qt-hero-stat {
+      background: var(--panel);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 2px;
+    }
+
+    .qt-hero-stat-num {
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--accent);
+      font-family: var(--font-mono);
+    }
+
+    .qt-hero-stat-label {
+      font-family: var(--font-cond);
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .qt-hero-cols {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .qt-hero-col {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 18px;
+      min-width: 0;
+    }
+
+    .qt-hero-col-wide {
+      margin-bottom: 16px;
+    }
+
+    .qt-hero-col-title {
+      font-family: var(--font-cond);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin: 0 0 12px;
+      padding-left: 10px;
+      border-left: 2px solid var(--accent);
+    }
+
+    .qt-hero-steps {
+      list-style: none;
+      counter-reset: qt-hero-step;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .qt-hero-steps li {
+      counter-increment: qt-hero-step;
+      position: relative;
+      padding-left: 26px;
+      font-family: var(--font-ui);
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .qt-hero-steps li::before {
+      content: counter(qt-hero-step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(0, 212, 255, .12);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qt-hero-steps li strong {
+      color: var(--text);
+    }
+
+    .qt-hero-steps li code,
+    .qt-hero-feature code {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-family: var(--font-mono);
+      color: var(--text);
+      font-size: 11px;
+    }
+
+    .qt-hero-shortcuts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .qt-hero-shortcut-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-ui);
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .qt-hero-shortcut-row kbd {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 3px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .qt-hero-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .qt-hero-feature {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+      font-family: var(--font-ui);
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      min-width: 0;
+    }
+
+    .qt-hero-feature strong {
+      display: block;
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .qt-hero-cta-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .qt-btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border: 1px solid var(--accent);
+      font-family: var(--font-cond);
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 11px 28px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(0, 212, 255, .2);
+      transition: all .15s;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (hover: hover) {
+      .qt-btn-primary:hover {
+        opacity: .88;
+        transform: scale(1.02);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .qt-hero-cols { grid-template-columns: 1fr; }
+      .qt-hero-feature-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .qt-hero-feature-grid { grid-template-columns: 1fr; }
+      .qt-hero-stat { padding: 10px 12px; }
+    }
+
     /* ── Workspace (two-pane) ───────────────────────────────────────── */
     .qt-workspace {
       display: flex;
       height: 100%;
       min-height: 0;
+      min-width: 0;
     }
 
     .qt-listpane {
@@ -605,6 +896,7 @@
       display: flex;
       flex-direction: column;
       min-height: 0;
+      min-width: 0;
       background: var(--bg);
     }
 
@@ -615,6 +907,7 @@
       padding: 12px 16px;
       border-bottom: 1px solid var(--border-soft);
       background: var(--panel-alt);
+      min-width: 0;
     }
 
     .qt-filter-row {
@@ -657,10 +950,12 @@
       cursor: pointer;
     }
 
-    .qt-chip:hover {
-      color: var(--text);
-      border-color: var(--dim);
-      background: var(--panel);
+    @media (hover: hover) {
+      .qt-chip:hover {
+        color: var(--text);
+        border-color: var(--dim);
+        background: var(--panel);
+      }
     }
 
     .qt-chip.active {
@@ -794,14 +1089,18 @@
       border-left: 3px solid transparent;
       transition: background .18s var(--ease), border-color .18s var(--ease);
       background: transparent;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
       border-right: none;
       border-top: none;
       cursor: pointer;
       font-family: var(--font-ui);
     }
 
-    .qt-row:hover {
-      background: var(--panel);
+    @media (hover: hover) {
+      .qt-row:hover {
+        background: var(--panel);
+      }
     }
 
     .qt-row.active {
@@ -1054,12 +1353,16 @@
       color: var(--muted);
       background: transparent;
       cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .qt-pt-btn:hover,
-    .qt-code-bar button:hover {
-      border-color: var(--accent);
-      color: var(--text);
+    @media (hover: hover) {
+      .qt-pt-btn:hover,
+      .qt-code-bar button:hover {
+        border-color: var(--accent);
+        color: var(--text);
+      }
     }
 
     .qt-pt-btn.active {
@@ -1238,12 +1541,16 @@
       cursor: pointer;
       border-top: 2px solid var(--accent);
       animation: qtRowIn .22s var(--ease) backwards;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .qt-mcell:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-sm);
+    @media (hover: hover) {
+      .qt-mcell:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1292,7 +1599,9 @@
     /* ── Footer ────────────────────────────────────────────────────────── */
     .footer-credit-row { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
     .footer-credit-pill { display:inline-flex; flex-wrap:nowrap; align-items:center; gap:6px; padding:4px 12px; border:1px solid var(--border); border-radius:999px; text-decoration:none; font-family:'Exo 2',sans-serif; font-weight:500; font-size:var(--fs-xs); white-space:nowrap; transition:border-color .15s; }
-    .footer-credit-pill:hover { border-color:var(--accent); }
+    @media (hover: hover) {
+      .footer-credit-pill:hover { border-color:var(--accent); }
+    }
     .footer-credit-pill .credit-tool { font-weight:700; letter-spacing:2px; }
     .footer-credit-pill .credit-by { color:var(--muted); }
     .footer-credit-pill .credit-name { color:var(--accent); font-weight:700; letter-spacing:.5px; }
@@ -1354,8 +1663,18 @@
         font-size: 16px;
       }
 
+      .qt-search .hint {
+        display: none;
+      }
+
+      .qt-view-tab {
+        padding: 5px 8px;
+        font-size: 9px;
+      }
+
       .qt-listpane {
         flex: 1;
+        min-width: 0;
         border-right: none;
       }
 
@@ -1393,26 +1712,22 @@
         color: var(--accent);
         flex: 0 0 auto;
         cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
       }
 
-      .qt-footer {
-        display: none;
+      .qt-footer .footer-left,
+      .qt-footer .footer-right {
+        font-size: 10px;
       }
 
       .qt-filter-row {
-        gap: 8px;
+        gap: 6px;
       }
 
       .qt-chip {
-        min-height: 36px;
-        padding: 8px 16px;
-        display: inline-flex;
-        align-items: center;
-      }
-
-      .qt-tool {
-        min-height: 40px;
-        padding: 8px 14px;
+        padding: 5px 11px;
+        font-size: 9.5px;
       }
 
       .qt-row {
@@ -1606,9 +1921,68 @@
         <span class="hint"><kbd>/</kbd></span>
       </div>
       <div class="qt-stat-strip" id="qtStatStrip"></div>
-      <div class="qt-tools">
-        <button class="qt-tool active" id="toolWorkspace" onclick="showView('workspace')"><svg class="qt-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg> Workspace</button>
-        <button class="qt-tool" id="toolAttack" onclick="showView('attack')"><svg class="qt-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line></svg> ATT&amp;CK</button>
+      <div class="qt-view-tabs" id="qtViewTabs">
+        <button class="qt-view-tab" data-view="overview" onclick="showView('overview')">Overview</button>
+        <button class="qt-view-tab active" data-view="workspace" onclick="showView('workspace')">Workspace</button>
+        <button class="qt-view-tab" data-view="attack" onclick="showView('attack')">ATT&amp;CK</button>
+      </div>
+    </div>
+
+    <!-- ── OVERVIEW ──────────────────────────────────────────────────────── -->
+    <div class="qt-view hidden" id="viewOverview">
+      <div class="qt-overview-wrap">
+        <div class="qt-overview-inner">
+          <div class="qt-hero-banner"><span class="xv-pill-accent">QUICK</span><span class="xv-pill-text">TRACE</span></div>
+          <div class="qt-hero-tagline">Daily Workflow Queries.</div>
+          <div class="qt-hero-by">by H3AD</div>
+
+          <div class="qt-hero-intro">
+            <h1 class="qt-hero-title">Ready-to-Run Queries for <span class="a1">XQL</span>, <span class="a2">KQL</span> &amp; <span class="a3">SPL</span></h1>
+            <p class="qt-hero-sub">A curated library of detection and hunting queries for the analyst's first five minutes on a case &mdash; searchable by category, platform, or MITRE ATT&amp;CK tactic, with a verified query in every platform it supports.</p>
+          </div>
+
+          <div class="qt-hero-stats">
+            <div class="qt-hero-stat"><span class="qt-hero-stat-num" id="ovQueries">&mdash;</span><span class="qt-hero-stat-label">Queries</span></div>
+            <div class="qt-hero-stat"><span class="qt-hero-stat-num" id="ovCategories">&mdash;</span><span class="qt-hero-stat-label">Categories</span></div>
+            <div class="qt-hero-stat"><span class="qt-hero-stat-num" id="ovPlatforms">&mdash;</span><span class="qt-hero-stat-label">Platforms</span></div>
+          </div>
+
+          <div class="qt-hero-cols">
+            <div class="qt-hero-col">
+              <h2 class="qt-hero-col-title">How to use</h2>
+              <ol class="qt-hero-steps">
+                <li><strong>Browse or search:</strong> filter the Workspace by category or platform, or search by title, category, tactic, or tag.</li>
+                <li><strong>Pick a query:</strong> click any result for the full detail &mdash; description, MITRE tactic/technique, and tags.</li>
+                <li><strong>Switch platform:</strong> each query ships in every platform it supports; switch tabs in the query panel to see XQL, KQL, or SPL, with verified variants marked.</li>
+                <li><strong>Copy and run:</strong> hit COPY to grab the query text, and replace any <code>&lt;placeholder&gt;</code> values before running it.</li>
+              </ol>
+            </div>
+            <div class="qt-hero-col">
+              <h2 class="qt-hero-col-title">Shortcuts</h2>
+              <div class="qt-hero-shortcuts">
+                <div class="qt-hero-shortcut-row"><kbd>/</kbd><span>Focus search</span></div>
+                <div class="qt-hero-shortcut-row"><kbd>&uarr;</kbd><kbd>&darr;</kbd><span>Move through results</span></div>
+                <div class="qt-hero-shortcut-row"><kbd>Esc</kbd><span>Close detail view</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="qt-hero-col-wide">
+            <h2 class="qt-hero-col-title">Capabilities</h2>
+            <div class="qt-hero-feature-grid">
+              <div class="qt-hero-feature"><strong>Category &amp; platform filters</strong>Filter by any of the 10 categories &mdash; Auth, Network, Endpoint, Cloud, SIEM, Identity, App Identities, OAuth, Email, Collaboration &mdash; and by XQL, KQL, or SPL, in any combination.</div>
+              <div class="qt-hero-feature"><strong>MITRE ATT&amp;CK mapped</strong>Every query carries its ATT&amp;CK tactic and technique, browsable from the coverage matrix &mdash; click any tactic to filter the workspace to it.</div>
+              <div class="qt-hero-feature"><strong>Recently added</strong>A rolling 14-day filter surfaces what's new without hunting through the full list.</div>
+              <div class="qt-hero-feature"><strong>Verified variants</strong>Where a query has been run and confirmed against real data, its platform tab is marked verified.</div>
+              <div class="qt-hero-feature"><strong>Keyboard-first</strong><kbd>/</kbd> to search, arrow keys to move through results, <kbd>Esc</kbd> to back out &mdash; built for fast triage.</div>
+              <div class="qt-hero-feature"><strong>One-click copy</strong>Grab the exact query text for the active platform tab, with any <code>&lt;placeholder&gt;</code> values clearly marked before you run it.</div>
+            </div>
+          </div>
+
+          <div class="qt-hero-cta-row">
+            <button class="qt-btn-primary" onclick="showView('workspace')">Open Workspace &rarr;</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1674,20 +2048,20 @@
       </div>
     </div>
 
-    <!-- ── Footer ──────────────────────────────────────────────────────────── -->
-    <footer class="qt-footer">
-      <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; QUICKTRACE</span>
-      <span class="footer-right">WORKFLOW QUERIES</span>
-      <div class="footer-credit-row">
-        <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
-          <span class="credit-tool"><span class="xv-pill-accent">QUICK</span><span class="xv-pill-text">TRACE</span></span>
-          <span class="credit-by">created by</span>
-          <span class="credit-name">H3AD</span>
-        </a>
-      </div>
-    </footer>
-
   </div><!-- /qt-app -->
+
+  <!-- ── Footer ──────────────────────────────────────────────────────────── -->
+  <footer class="qt-footer">
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; QUICKTRACE</span>
+    <span class="footer-right">WORKFLOW QUERIES</span>
+    <div class="footer-credit-row">
+      <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
+        <span class="credit-tool"><span class="xv-pill-accent">QUICK</span><span class="xv-pill-text">TRACE</span></span>
+        <span class="credit-by">created by</span>
+        <span class="credit-name">H3AD</span>
+      </a>
+    </div>
+  </footer>
 
   <script>
     // ── Theme ─────────────────────────────────────────────────────────────────────
@@ -1802,12 +2176,14 @@
     // ── View switching ───────────────────────────────────────────────────────────
     function showView(view) {
       currentView = view;
-      ['workspace', 'attack'].forEach(function (v) {
+      ['overview', 'workspace', 'attack'].forEach(function (v) {
         var el = document.getElementById('view' + v.charAt(0).toUpperCase() + v.slice(1));
         if (el) el.classList.toggle('hidden', v !== view);
       });
-      document.getElementById('toolWorkspace').classList.toggle('active', view === 'workspace');
-      document.getElementById('toolAttack').classList.toggle('active', view === 'attack');
+      document.querySelectorAll('.qt-view-tab').forEach(function (t) {
+        t.classList.toggle('active', t.dataset.view === view);
+      });
+      localStorage.setItem('qt_view', view);
       if (view === 'workspace') { renderCategoryChips(); renderList(); }
       if (view === 'attack') renderMatrix();
     }
@@ -1874,6 +2250,13 @@
         return '<span><b>' + s[0] + '</b> ' + s[1] + '</span>';
       }).join('<span class="qt-stat-sep">&middot;</span>');
       updateNewChipCount();
+
+      var ovQ = document.getElementById('ovQueries');
+      var ovC = document.getElementById('ovCategories');
+      var ovP = document.getElementById('ovPlatforms');
+      if (ovQ) ovQ.textContent = allQueries.length;
+      if (ovC) ovC.textContent = Object.keys(cats).length;
+      if (ovP) ovP.textContent = Object.keys(plats).length;
     }
 
     var SPARKLE_SVG = '<svg class="qt-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3z"></path></svg>';
@@ -2253,7 +2636,7 @@
 
     // ── Init ──────────────────────────────────────────────────────────────────────
     loadManifest();
-    showView('workspace');
+    showView(localStorage.getItem('qt_view') === 'overview' ? 'overview' : 'workspace');
     (function () { var pill = document.getElementById('xv-nav-pill'), links = document.querySelector('.nav-links'), toggle = document.querySelector('.theme-toggle'), G = 20; function check() { if (!links) return; document.body.classList.remove('nav-compact'); links.style.visibility = 'hidden'; var lr = links.getBoundingClientRect(), pr = pill ? pill.getBoundingClientRect().right : 60, tl = toggle ? toggle.getBoundingClientRect().left : window.innerWidth - 60; links.style.visibility = ''; document.body.classList.toggle('nav-compact', (pr + G > lr.left) || (lr.right + G > tl)); } check(); window.addEventListener('resize', check); })();
   </script>
 </body>
